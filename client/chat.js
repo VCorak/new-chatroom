@@ -84,5 +84,6 @@ messageForm.addEventListener('submit', (e) => {
 socket.on('broadcast-message', (data) => {
     console.log('📢 broadcast-message event >> ', data)
     // appends message in chat container, with isSelf flag false
+    // calling the addMessage function to append own message to the chat container without involving server
     addMessage(data, false)
 })
