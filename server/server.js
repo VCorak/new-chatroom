@@ -9,10 +9,10 @@ console.log(`🖥 HTTP Server running at ${APP_PORT}`);
 
 // handles all http requests to the server
 function requestHandler(request, response) {
-    console.log(`🖥 Received request for ${request.url}`)
+    console.log(`🖥 Received request for ${request.url}`);
     // append /client to serve pages from that folder
     let filePath = './client' + request.url
-    if (filePath == './client/') {
+    if (filePath === './client/') {
         // serve index page on request /
         filePath = './client/index.html'
     }
@@ -34,7 +34,7 @@ function requestHandler(request, response) {
                 fs.readFile('./client/404.html', function (error, content) {
                     response.writeHead(404, { 'Content-Type': contentType })
                     response.end(content, 'utf-8')
-                })
+                });
             } else {
                 response.writeHead(500)
                 response.end('Sorry, there was an error: ' + error.code + ' ..\n')
@@ -43,13 +43,13 @@ function requestHandler(request, response) {
             response.writeHead(200, { 'Content-Type': contentType })
             response.end(content, 'utf-8')
         }
-    })
+    });
 }
 
 // SOCKET.IO CHAT EVENT HANDLING
 const io = require('socket.io')(app, {
     path: '/socket.io',
-})
+});
 
 io.attach(app, {
     // includes local domain to avoid CORS error locally
@@ -61,11 +61,11 @@ io.attach(app, {
         transports: ['websocket', 'polling'],
     },
     allowEIO3: true,
-})
+});
 
 // we detect a new connection and log a message in the console
 // including the socket object, which will contain some information from the client
 io.on('connection', (socket) => {
-    console.log('👾 New socket connected! >>', socket.id)
-})
+    console.log('👾 New socket connected! >>', socket.id);
+});
 
