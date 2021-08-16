@@ -28,6 +28,8 @@ socket.on('welcome-message', (data) => {
 
 // receives two params, the message and if it was sent by yourself
 // so we can style them differently
+// This function will receive a data object which will contain the username and the message itself,
+// and a isSelf flag which indicates if the message is ours. We'll use this second parameter to choose a different style to display the message.
 function addMessage(data, isSelf = false) {
     const messageElement = document.createElement('div')
     messageElement.classList.add('message')
@@ -52,3 +54,35 @@ function addMessage(data, isSelf = false) {
     // adds the new div to the message container div
     chatContainer.append(messageElement)
 }
+
+// next step is to send messages from a client and broadcast them to all the other clients. We'll have to add an event listener in our submit button and,
+// as we've done before, use the socket.emit() function in the client to send the message to our server. We'll also add another event handler for broadcast-message which we'll emit from the server when other clients send a message:
+
+const messageForm = document.getElementById('messageForm')
+
+messageForm.addEventListener('submit', (e) => {
+    // avoids submit the form and refresh the page
+    e.preventDefault()
+
+    const messageInput = document.getElementById('messageInput')
+
+    // check if there is a message in the input
+    if (messageInput.value !== '') {
+        let newMessage = messageInput.value
+        //sends message and our id to socket server
+        socket.emit('new-message', { user: socket.id, message: newMessage })
+        // appends message in chat container, with isSelf flag true
+        addMessage({ message: newMessage }, true)
+        //resets input
+        messageInput.value = ''
+    } else {
+        // adds error styling to input
+        messageInput.classList.add('error')
+    }
+})
+
+socket.on('broadcast-message', (data) => {
+    console.log('📢 broadcast-message event >> ', data)
+    // appends message in chat container, with isSelf flag false
+    addMessage(data, false)
+})
