@@ -45,3 +45,27 @@ function requestHandler(request, response) {
         }
     })
 }
+
+// SOCKET.IO CHAT EVENT HANDLING
+const io = require('socket.io')(app, {
+    path: '/socket.io',
+})
+
+io.attach(app, {
+    // includes local domain to avoid CORS error locally
+    // configure it accordingly for production
+    cors: {
+        origin: 'http://localhost',
+        methods: ['GET', 'POST'],
+        credentials: true,
+        transports: ['websocket', 'polling'],
+    },
+    allowEIO3: true,
+})
+
+// we detect a new connection and log a message in the console
+// including the socket object, which will contain some information from the client
+io.on('connection', (socket) => {
+    console.log('👾 New socket connected! >>', socket.id)
+})
+
