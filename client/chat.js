@@ -1,3 +1,4 @@
+// 5. STEP
 // add all the code to emit and handle events for our chat.
 // which connects the client to the Socket.io instance running on the host that served the page (our server):
 
@@ -6,7 +7,9 @@ console.log('chat.js file loaded!');
 // IMPORTANT! By default, socket.io() connects to the host that
 // served the page, so we dont have to pass the server url
 let socket = io.connect();
+////////////////////////////////////////////////////////////
 
+// 6. STEP
 // storing the information of each client connected to our server.
 // To identify each client, we'll ask the users to enter their name in a promt and additionally, we'll save their socket id.
 
@@ -26,6 +29,9 @@ socket.on('welcome-message', (data) => {
 // the most used functions when working with Socket.io are socket.emit(eventName, data) and socket.on(eventName, data) to emit and capture events in both the server and the clients.
 // remember to have an socket.on() function for each event you send with socket.emit()
 
+////////////////////////////////////////////////////////////////////////
+
+// 8. STEP
 // receives two params, the message and if it was sent by yourself
 // so we can style them differently
 // This function will receive a data object which will contain the username and the message itself,
@@ -55,6 +61,9 @@ function addMessage(data, isSelf = false) {
     chatContainer.append(messageElement)
 }
 
+//////////////////////////////////////////////////////////////////
+
+// 9. STEP
 // next step is to send messages from a client and broadcast them to all the other clients. We'll have to add an event listener in our submit button and,
 // as we've done before, use the socket.emit() function in the client to send the message to our server. We'll also add another event handler for broadcast-message which we'll emit from the server when other clients send a message:
 
@@ -87,3 +96,5 @@ socket.on('broadcast-message', (data) => {
     // calling the addMessage function to append own message to the chat container without involving server
     addMessage(data, false)
 })
+
+///////////////////////////////////////////////////////////

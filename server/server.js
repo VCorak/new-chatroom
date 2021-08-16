@@ -1,3 +1,4 @@
+// 1. STEP
 let http = require('http');
 let fs = require('fs');
 let path = require('path');
@@ -46,6 +47,8 @@ function requestHandler(request, response) {
     });
 }
 
+////////////////////////////////////////////////////////////////////
+// 3. STEP
 // SOCKET.IO CHAT EVENT HANDLING
 const io = require('socket.io')(app, {
     path: '/socket.io',
@@ -68,9 +71,11 @@ io.attach(app, {
 io.on('connection', (socket) => {
     console.log('👾 New socket connected! >>', socket.id);
 });
+///////////////////////////////////////////////////////////////////
 
 // need to capture the new-message event using the socket.on() method and emit the broadcast-message event
 
+// 10. STEP
 // To save the list of users as id:username
 let users = {}
 
@@ -107,3 +112,5 @@ io.on('connection', (socket) => {
 // now we're using socket.broadcast.emit() instead of
 // just socket.emit().
 // The difference is that when broadcasting, we're sending an event to all clients except the one that sent the original event
+
+//////////////////////////////////////////////////////////////////
