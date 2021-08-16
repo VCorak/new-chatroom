@@ -1,7 +1,7 @@
 let http = require('http');
 let fs = require('fs');
 let path = require('path');
-let APP_PORT = 9200;
+let APP_PORT = 9010;
 let app = http.createServer(requestHandler);
 
 app.listen(APP_PORT);

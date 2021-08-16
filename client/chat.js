@@ -19,7 +19,36 @@ socket.emit('new-connection', { username }) // The first parameter is the event 
 // captures welcome-message event from the server
 socket.on('welcome-message', (data) => {
     console.log('received welcome-message >>', data)
+    // adds message, not ours
+    addMessage(data, false);
 })
 
 // the most used functions when working with Socket.io are socket.emit(eventName, data) and socket.on(eventName, data) to emit and capture events in both the server and the clients.
 // remember to have an socket.on() function for each event you send with socket.emit()
+
+// receives two params, the message and if it was sent by yourself
+// so we can style them differently
+function addMessage(data, isSelf = false) {
+    const messageElement = document.createElement('div')
+    messageElement.classList.add('message')
+
+    if (isSelf) {
+        messageElement.classList.add('self-message')
+        messageElement.innerText = `${data.message}`
+    } else {
+        if (data.user === 'server') {
+            // message is from the server, like a notification of new user connected
+            // messageElement.classList.add('others-message')
+            messageElement.innerText = `${data.message}`
+        } else {
+            // message is from other user
+            messageElement.classList.add('others-message')
+            messageElement.innerText = `${data.user}: ${data.message}`
+        }
+    }
+    // get chatContainer element from our html page
+    const chatContainer = document.getElementById('chatContainer')
+
+    // adds the new div to the message container div
+    chatContainer.append(messageElement)
+}
