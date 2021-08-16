@@ -6,7 +6,6 @@
 
 
 
-
 ## What is happening on server what on client side?
 
 ### Chat server responsibilities
